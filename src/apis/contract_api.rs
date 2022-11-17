@@ -38,7 +38,7 @@ pub trait ContractApi {
     fn iserver_contract_conid_algos_get(&self, conid: &str, algos: &str, add_description: &str, add_params: &str) -> Box<Future<Item = Vec<::models::InlineResponse20022>, Error = Error<serde_json::Value>>>;
     fn iserver_contract_conid_info_and_rules_get(&self, conid: &str, is_buy: bool) -> Box<Future<Item = ::models::InlineResponse20023, Error = Error<serde_json::Value>>>;
     fn iserver_contract_conid_info_get(&self, conid: &str) -> Box<Future<Item = ::models::Contract, Error = Error<serde_json::Value>>>;
-    fn iserver_secdef_info_get(&self, conid: &str, sectype: &str, month: &str, exchange: &str, strike: &str, right: &str) -> Box<Future<Item = Value, Error = Error<serde_json::Value>>>;
+    fn iserver_secdef_info_get(&self, conid: &str, sectype: &str, month: &str, exchange: &str, strike: &str, right: &str) -> Box<Future<Item = Vec<::models::SecdefInfo>, Error = Error<serde_json::Value>>>;
     fn iserver_secdef_search_post(&self, symbol: ::models::Symbol) -> Box<Future<Item = Vec<::models::InlineResponse20029>, Error = Error<serde_json::Value>>>;
     fn iserver_secdef_strikes_get(&self, conid: &str, sectype: &str, month: &str, exchange: &str) -> Box<Future<Item = ::models::InlineResponse20030, Error = Error<serde_json::Value>>>;
     fn trsrv_futures_get(&self, symbols: &str) -> Box<Future<Item = ::models::InlineResponse20036, Error = Error<serde_json::Value>>>;
@@ -203,7 +203,7 @@ impl<C: hyper::client::Connect>ContractApi for ContractApiClient<C> {
         )
     }
 
-    fn iserver_secdef_info_get(&self, conid: &str, sectype: &str, month: &str, exchange: &str, strike: &str, right: &str) -> Box<Future<Item = Value, Error = Error<serde_json::Value>>> {
+    fn iserver_secdef_info_get(&self, conid: &str, sectype: &str, month: &str, exchange: &str, strike: &str, right: &str) -> Box<Future<Item = Vec<::models::SecdefInfo>, Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
@@ -253,7 +253,7 @@ impl<C: hyper::client::Connect>ContractApi for ContractApiClient<C> {
                 }
             })
             .and_then(|body| {
-                let parsed: Result<Value, _> = serde_json::from_slice(&body);
+                let parsed: Result<Vec<::models::SecdefInfo>, _> = serde_json::from_slice(&body);
                 parsed.map_err(|e| Error::from(e))
             })
         )

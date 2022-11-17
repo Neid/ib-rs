@@ -110,7 +110,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **iserver_secdef_info_get**
-> Value iserver_secdef_info_get(conid, sectype, optional)
+> Vec<::models::SecdefInfo> iserver_secdef_info_get(conid, sectype, optional)
 Secdef Info
 
 Provides Contract Details of Futures, Options, Warrants, Cash and CFDs based on conid. To get the strike price for Options/Warrants use \"/iserver/secdef/strikes\" endpoint. Must call /secdef/search for the underlying contract first.
@@ -137,7 +137,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Value**](Value.md)
+[**Vec<::models::SecdefInfo>**](secdef-info.md)
 
 ### Authorization
 
